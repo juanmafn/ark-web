@@ -1,0 +1,30 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <div class="list-group">
+        <a class="list-group-item list-group-item-header">
+            Un jugador
+        </a>
+        <a routerLink="/single-anual" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;Por año
+        </a>
+        <a routerLink="/single-mensual" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;Por mes
+        </a>
+        <a routerLink="/single-diario" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-line-chart"></i>&nbsp;Por día
+        </a>
+    </div>
+    <div class="list-group">
+        <a class="list-group-item list-group-item-header">
+            Varios jugadores
+        </a>
+        <a routerLink="/several-anual" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-line-chart"></i>&nbsp;Por año
+        </a>
+        <a routerLink="/several-mensual" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-line-chart"></i>&nbsp;Por mes
+        </a>
+        <a routerLink="/several-diario" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-line-chart"></i>&nbsp;Por día
+        </a>
+    </div>
+</nav>

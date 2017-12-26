@@ -1,0 +1,16 @@
+<!-- <nav class="breadcrumb">
+  <a class="breadcrumb-item" >Varios jugadores</a>
+  <a class="breadcrumb-item active" routerLink="/several-anual">Anual</a>
+</nav>
+
+
+ -->
+
+<nav class="breadcrumb">
+  <a *ngIf="single && player !== undefined" class="breadcrumb-item" >Varios jugadores</a>
+  <a *ngIf="single && player !== undefined" class="breadcrumb-item" [routerLink]="rutaPadre"> {{ typeString }} </a>
+  <a *ngIf="single" class="breadcrumb-item" >Un jugador</a>
+  <a *ngIf="!single" class="breadcrumb-item" >Varios jugadores</a>
+  <a *ngIf="player === undefined" class="breadcrumb-item active" [routerLink]="ruta"> {{ typeString }} </a>
+  <a *ngIf="player !== undefined" class="breadcrumb-item active" [routerLink]="[ruta, player]"> {{ player }} </a>
+</nav>

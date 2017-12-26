@@ -1,0 +1,12 @@
+<app-breadcrumb
+  [player]="player"
+  [single]="true"
+  [type]="'mensual'"
+></app-breadcrumb>
+<app-combo-single-chart
+  *ngIf="dataSource != null"
+  [titleLineChart]="titleGraficaLine"
+  [titleDonutChart]="titleGraficaDonut"
+  [series]="dataSource.series"
+  [categoryTitle]="categoriaTitle"
+></app-combo-single-chart>

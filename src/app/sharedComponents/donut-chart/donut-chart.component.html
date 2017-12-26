@@ -1,0 +1,26 @@
+<kendo-chart>
+  <kendo-chart-title text="{{ title }}"></kendo-chart-title>
+  <kendo-chart-legend [visible]="false"></kendo-chart-legend>
+  <kendo-chart-area [height]="height">
+    </kendo-chart-area>
+  <ng-template kendoChartDonutCenterTemplate>
+    <h3> {{ nTotal }} </h3>
+    Horas jugadas
+  </ng-template>
+  <kendo-chart-tooltip>
+    <ng-template kendoChartSeriesTooltipTemplate
+                  let-value="value" let-category="category" let-percentage="percentage">
+        {{ category }}: {{ value }} horas ({{ percentage | percent:'.2-2' }})
+    </ng-template>
+  </kendo-chart-tooltip>
+  <kendo-chart-series>
+    <kendo-chart-series-item
+      type="donut" [data]="series" categoryField="name" field="total">
+      <kendo-chart-series-item-labels
+        position="outsideEnd"
+        [content]="labelContent"
+        background="none">
+      </kendo-chart-series-item-labels>
+    </kendo-chart-series-item>
+  </kendo-chart-series>
+</kendo-chart>
