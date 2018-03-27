@@ -8,9 +8,11 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SeveralDiarioComponent implements OnInit {
 
-  year: number = 2017;
-  month: number = 11;
-  day: number = 15;
+  public value: Date = new Date();
+
+  year: number = this.value.getFullYear();
+  month: number = this.value.getMonth() + 1;
+  day: number = this.value.getDate();
 
   titleLineChart: string;
   titleColumnChart: string;
@@ -27,15 +29,27 @@ export class SeveralDiarioComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.getData();
+  }
+
+  getData() {
     this.apiService.getSeveralDiario(this.year, this.month, this.day)
-      .then(res => {
-        this.dataSource = res;
-        
-        this.titleLineChart = `Horas jugadas por cada jugador el ${this.dataSource.fecha}`;
-        this.titleColumnChart = `Horas totales jugadas de cada jugador el ${this.dataSource.fecha}`;
-        this.titleDonutChart = `Proporción de horas totales jugadas por los jugadores el ${this.dataSource.fecha}`;
-      })
-      .catch(error => {});
+    .then(res => {
+      this.dataSource = res;
+      
+      this.titleLineChart = `Horas jugadas por cada jugador el ${this.dataSource.fecha}`;
+      this.titleColumnChart = `Horas totales jugadas de cada jugador el ${this.dataSource.fecha}`;
+      this.titleDonutChart = `Proporción de horas totales jugadas por los jugadores el ${this.dataSource.fecha}`;
+    })
+    .catch(error => {});
+  }
+
+  public onChange(value: Date): void {
+    localStorage.setItem('fecha', value.toDateString());
+    this.year = value.getFullYear();
+    this.month = value.getMonth() + 1;
+    this.day = value.getDate();
+    this.getData();
   }
 
 }

@@ -2,10 +2,12 @@ import { ApiService } from './services/api.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { HttpModule, Http } from '@angular/http';
 
 import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 
 import { routing } from './app.routing';
 
@@ -53,7 +55,8 @@ import { BreadcrumbComponent } from './sharedComponents/breadcrumb/breadcrumb.co
     BrowserModule,
     AngularFontAwesomeModule,
     routing,
-    BrowserAnimationsModule, ChartsModule
+    HttpModule,
+    BrowserAnimationsModule, ChartsModule, DateInputsModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

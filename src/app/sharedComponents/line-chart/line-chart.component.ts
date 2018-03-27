@@ -17,6 +17,7 @@ export class LineChartComponent implements OnInit {
   ngOnInit() { }
 
   onLegendItemClick(event) {
+    localStorage.setItem('player', event.text);
     if (event.series.data.length == 12) {
       this.router.navigate(['/single-anual', event.text]);
     } else if (event.series.data.length == 24) {

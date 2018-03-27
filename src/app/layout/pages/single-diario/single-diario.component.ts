@@ -9,9 +9,9 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SingleDiarioComponent implements OnInit {
 
-  year: number = 2017;
-  month: number = 11;
-  day: number = 15;
+  year: number;
+  month: number;
+  day: number;
   player: string;
   titleGraficaLine: string;
   titleGraficaDonut: string;
@@ -24,11 +24,24 @@ export class SingleDiarioComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe( params => {
       this.player = params.id;
+      if (this.player == null) {
+        this.player = localStorage.getItem('player');
+      }
+      const fecha: Date = new Date(localStorage.getItem('fecha'));      
+      this.year = fecha.getFullYear();
+      this.month = fecha.getMonth() + 1;
+      this.day = fecha.getDate();
     });
   }
 
   ngOnInit() {
-    this.apiService.getSingleDiario(this.year, this.month, this.day)
+    if (this.player != null) {
+      this.getDate();
+    }
+  }
+
+  getDate() {
+    this.apiService.getSingleDiario(this.player, this.year, this.month, this.day)
       .then(res => {
         this.dataSource = res;
 

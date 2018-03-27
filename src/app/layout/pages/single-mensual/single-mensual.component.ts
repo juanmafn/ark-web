@@ -9,8 +9,8 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SingleMensualComponent implements OnInit {
   
-  year: number = 2017;
-  month: number = 11;
+  year: number;
+  month: number;
   player: string;
   titleGraficaLine: string;
   titleGraficaDonut: string;
@@ -23,18 +23,35 @@ export class SingleMensualComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe( params => {
       this.player = params.id;
+      console.log('antes');
+      console.log(this.player);
+      if (this.player == null) {
+        this.player = localStorage.getItem('player');
+      }
+      console.log('después');
+      console.log(this.player);
+      
+      const fecha: Date = new Date(localStorage.getItem('fecha'));      
+      this.year = fecha.getFullYear();
+      this.month = fecha.getMonth() + 1;
     });
   }
 
   ngOnInit() {
-    this.apiService.getSingleMensual(this.year, this.month)
-      .then(res => {
-        this.dataSource = res;
+    if (this.player != null) {
+      this.getData();
+    }
+  }
 
-        this.titleGraficaLine = `Horas jugadas por ${this.player} en ${this.dataSource.fecha}`;
-        this.titleGraficaDonut = `Proporción de horas totales jugadas por ${this.player} en ${this.dataSource.fecha}`;
-      })
-      .catch(error => {});
+  getData() {
+    this.apiService.getSingleMensual(this.player, this.year, this.month)
+    .then(res => {
+      this.dataSource = res;
+
+      this.titleGraficaLine = `Horas jugadas por ${this.player} en ${this.dataSource.fecha}`;
+      this.titleGraficaDonut = `Proporción de horas totales jugadas por ${this.player} en ${this.dataSource.fecha}`;
+    })
+    .catch(error => {});
   }
 
 }

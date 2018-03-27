@@ -8,7 +8,9 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SeveralAnualComponent implements OnInit {
 
-  year: number = 2017;
+  public value: Date;
+
+  year: number;
 
   titleLineChart: string;
   titleColumnChart: string;
@@ -30,11 +32,20 @@ export class SeveralAnualComponent implements OnInit {
   ];
   categoriaTitle: string = 'Mes';
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {
+    this.value = new Date();
+    this.year = this.value.getFullYear();
+  }
 
   ngOnInit() {
+    localStorage.setItem('fecha', this.value.toDateString());
+    this.getData();
+  }
+
+  getData() {
     this.apiService.getSeveralAnual(this.year)
       .then(res => {
+        console.log(res);
         this.dataSource = res;
 
         this.titleLineChart = `Horas jugadas por cada jugador en ${this.dataSource.fecha}`;
@@ -42,6 +53,12 @@ export class SeveralAnualComponent implements OnInit {
         this.titleDonutChart = `Proporción de horas totales jugadas por los jugadores en ${this.dataSource.fecha}`;
       })
       .catch(error => {});
+  }
+
+  public onChange(value: Date): void {
+    localStorage.setItem('fecha', value.toDateString());
+    this.year = value.getFullYear();
+    this.getData();
   }
 
 }

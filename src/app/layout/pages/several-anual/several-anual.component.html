@@ -2,6 +2,11 @@
   [single]="false"
   [type]="'anual'"
 ></app-breadcrumb>
+<kendo-datepicker
+    [(value)]="value"
+    [format]="'yyyy'"
+    (valueChange)="onChange($event)"
+></kendo-datepicker>
 <app-combo-several-chart
   *ngIf="dataSource != null"
   [titleLineChart]="titleLineChart"

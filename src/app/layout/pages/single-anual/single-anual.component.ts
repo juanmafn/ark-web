@@ -9,7 +9,7 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SingleAnualComponent implements OnInit {
 
-  year: number = 2017;
+  year: number;
   player: string;
   titleGraficaLine: string;
   titleGraficaDonut: string;
@@ -22,18 +22,29 @@ export class SingleAnualComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe( params => {
       this.player = params.id;
+      if (this.player == null) {
+        this.player = localStorage.getItem('player');
+      }
+      const fecha: Date = new Date(localStorage.getItem('fecha'));      
+      this.year = fecha.getFullYear();
     });
   }
 
   ngOnInit() {
-    this.apiService.getSingleAnual(this.year)
-      .then(res => {
-        this.dataSource = res;
+    if (this.player) {
+      this.getData();
+    }
+  }
 
-        this.titleGraficaLine = `Horas jugadas por ${this.player} en el año ${this.dataSource.fecha}`;
-        this.titleGraficaDonut = `Proporción de horas totales jugadas por ${this.player} en el año ${this.dataSource.fecha}`;
-      })
-      .catch(error => {});
+  getData() {
+    this.apiService.getSingleAnual(this.player, this.year)
+    .then(res => {
+      this.dataSource = res;
+
+      this.titleGraficaLine = `Horas jugadas por ${this.player} en el año ${this.dataSource.fecha}`;
+      this.titleGraficaDonut = `Proporción de horas totales jugadas por ${this.player} en el año ${this.dataSource.fecha}`;
+    })
+    .catch(error => {});
   }
 
 }
