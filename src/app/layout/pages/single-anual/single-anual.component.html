@@ -1,12 +1,22 @@
-<app-breadcrumb *ngIf="player"
-  [player]="player"
-  [single]="true"
-  [type]="'anual'"
-></app-breadcrumb>
-<app-combo-single-chart
-  *ngIf="dataSource != null"
-  [titleLineChart]="titleGraficaLine"
-  [titleDonutChart]="titleGraficaDonut"
-  [series]="dataSource.series"
-  [categoryTitle]="categoriaTitle"
-></app-combo-single-chart>
+<div (window:keypress)="onKeyDown($event)">
+  <app-breadcrumb *ngIf="player"
+    [player]="player"
+    [single]="true"
+    [type]="'anual'"
+  ></app-breadcrumb>
+  <span class="hand" (click)="onLeft($event)"><i class="fa fa-angle-left"></i></span>
+  <kendo-datepicker
+      #datePicker
+      [(value)]="value"
+      [format]="'yyyy'"
+      (valueChange)="onChange($event)"
+  ></kendo-datepicker>
+  <span class="hand" (click)="onRight($event)"><i class="fa fa-angle-right"></i></span>
+  <app-combo-single-chart
+    *ngIf="dataSource != null"
+    [titleLineChart]="titleGraficaLine"
+    [titleDonutChart]="titleGraficaDonut"
+    [series]="dataSource.series"
+    [categoryTitle]="categoriaTitle"
+  ></app-combo-single-chart>
+</div>

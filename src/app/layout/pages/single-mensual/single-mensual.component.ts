@@ -1,13 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SeriesDto } from '../../../model/SeriesDto';
 import { ApiService } from '../../../services/api.service';
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 
 @Component({
   selector: 'app-single-mensual',
   templateUrl: './single-mensual.component.html'
 })
 export class SingleMensualComponent implements OnInit {
+
+  @ViewChild('datePicker') datePicker: DatePickerComponent;
+
+  public value: Date;
   
   year: number;
   month: number;
@@ -23,17 +28,12 @@ export class SingleMensualComponent implements OnInit {
   ) {
     this.activatedRoute.params.subscribe( params => {
       this.player = params.id;
-      console.log('antes');
-      console.log(this.player);
       if (this.player == null) {
         this.player = localStorage.getItem('player');
-      }
-      console.log('después');
-      console.log(this.player);
-      
-      const fecha: Date = new Date(localStorage.getItem('fecha'));      
-      this.year = fecha.getFullYear();
-      this.month = fecha.getMonth() + 1;
+      }      
+      this.value = new Date(localStorage.getItem('fecha'));      
+      this.year = this.value.getFullYear();
+      this.month = this.value.getMonth() + 1;
     });
   }
 
@@ -52,6 +52,36 @@ export class SingleMensualComponent implements OnInit {
       this.titleGraficaDonut = `Proporción de horas totales jugadas por ${this.player} en ${this.dataSource.fecha}`;
     })
     .catch(error => {});
+  }
+
+  public onChange(value: Date): void {
+    localStorage.setItem('fecha', value.toDateString());
+    this.year = value.getFullYear();
+    this.month = value.getMonth() + 1;
+    this.getData();
+  }
+
+  onLeft() {
+    this.value.setMonth(this.value.getMonth() - 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onRight() {
+    this.value.setMonth(this.value.getMonth() + 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onKeyDown(event) {
+    if (this.player) {
+      if (event.key === 'ArrowLeft') {
+        this.onLeft();
+      }
+      if (event.key === 'ArrowRight') {
+        this.onRight();
+      }
+    }
   }
 
 }

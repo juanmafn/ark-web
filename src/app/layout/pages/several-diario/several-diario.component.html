@@ -1,18 +1,23 @@
-<app-breadcrumb
-  [single]="false"
-  [type]="'diario'"
-></app-breadcrumb>
-<kendo-datepicker
-    [(value)]="value"
-    [format]="'yyyy/MM/dd'"
-    (valueChange)="onChange($event)"
-></kendo-datepicker>
-<app-combo-several-chart
-  *ngIf="dataSource != null"
-  [titleLineChart]="titleLineChart"
-  [titleColumnChart]="titleColumnChart"
-  [titleDonutChart]="titleDonutChart"
-  [series]="dataSource.series"
-  [categories]="categories"
-  [categoryTitle]="categoriaTitle"
-></app-combo-several-chart>
+<div (window:keypress)="onKeyDown($event)">
+  <app-breadcrumb
+    [single]="false"
+    [type]="'diario'"
+  ></app-breadcrumb>
+  <span class="hand" (click)="onLeft($event)"><i class="fa fa-angle-left"></i></span>
+  <kendo-datepicker
+      #datePicker
+      [(value)]="value"
+      [format]="'yyyy/MM/dd'"
+      (valueChange)="onChange($event)"
+  ></kendo-datepicker>
+  <span class="hand" (click)="onRight($event)"><i class="fa fa-angle-right"></i></span>
+  <app-combo-several-chart
+    *ngIf="dataSource != null"
+    [titleLineChart]="titleLineChart"
+    [titleColumnChart]="titleColumnChart"
+    [titleDonutChart]="titleDonutChart"
+    [series]="dataSource.series"
+    [categories]="categories"
+    [categoryTitle]="categoriaTitle"
+  ></app-combo-several-chart>
+</div>

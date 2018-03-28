@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SeriesDto } from '../../../model/SeriesDto';
 import { ApiService } from '../../../services/api.service';
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 
 @Component({
   selector: 'app-several-anual',
@@ -8,6 +9,8 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SeveralAnualComponent implements OnInit {
 
+  @ViewChild('datePicker') datePicker: DatePickerComponent;
+  
   public value: Date;
 
   year: number;
@@ -59,6 +62,27 @@ export class SeveralAnualComponent implements OnInit {
     localStorage.setItem('fecha', value.toDateString());
     this.year = value.getFullYear();
     this.getData();
+  }
+
+  onLeft() {
+    this.value.setFullYear(this.value.getFullYear() - 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onRight() {
+    this.value.setFullYear(this.value.getFullYear() + 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'ArrowLeft') {
+      this.onLeft();
+    }
+    if (event.key === 'ArrowRight') {
+      this.onRight();
+    }
   }
 
 }

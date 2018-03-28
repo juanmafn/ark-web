@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SeriesDto } from '../../../model/SeriesDto';
 import { ApiService } from '../../../services/api.service';
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 
 @Component({
   selector: 'app-several-mensual',
@@ -8,6 +9,8 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SeveralMensualComponent implements OnInit {
 
+  @ViewChild('datePicker') datePicker: DatePickerComponent;
+  
   public value: Date;
 
   year: number;
@@ -51,6 +54,27 @@ export class SeveralMensualComponent implements OnInit {
     this.year = value.getFullYear();
     this.month = value.getMonth() + 1;
     this.getData();
+  }
+
+  onLeft() {
+    this.value.setMonth(this.value.getMonth() - 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onRight() {
+    this.value.setMonth(this.value.getMonth() + 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'ArrowLeft') {
+      this.onLeft();
+    }
+    if (event.key === 'ArrowRight') {
+      this.onRight();
+    }
   }
 
 }

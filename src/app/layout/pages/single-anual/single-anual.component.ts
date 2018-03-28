@@ -1,7 +1,8 @@
 import { SeriesDto } from './../../../model/SeriesDto';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 
 @Component({
   selector: 'app-single-anual',
@@ -9,6 +10,10 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SingleAnualComponent implements OnInit {
 
+  @ViewChild('datePicker') datePicker: DatePickerComponent;
+
+  public value: Date;
+  
   year: number;
   player: string;
   titleGraficaLine: string;
@@ -25,8 +30,8 @@ export class SingleAnualComponent implements OnInit {
       if (this.player == null) {
         this.player = localStorage.getItem('player');
       }
-      const fecha: Date = new Date(localStorage.getItem('fecha'));      
-      this.year = fecha.getFullYear();
+      this.value = new Date(localStorage.getItem('fecha'));      
+      this.year = this.value.getFullYear();
     });
   }
 
@@ -45,6 +50,35 @@ export class SingleAnualComponent implements OnInit {
       this.titleGraficaDonut = `Proporción de horas totales jugadas por ${this.player} en el año ${this.dataSource.fecha}`;
     })
     .catch(error => {});
+  }
+
+  public onChange(value: Date): void {
+    localStorage.setItem('fecha', value.toDateString());
+    this.year = value.getFullYear();
+    this.getData();
+  }
+
+  onLeft() {
+    this.value.setFullYear(this.value.getFullYear() - 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onRight() {
+    this.value.setFullYear(this.value.getFullYear() + 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onKeyDown(event) {
+    if (this.player) {
+      if (event.key === 'ArrowLeft') {
+        this.onLeft();
+      }
+      if (event.key === 'ArrowRight') {
+        this.onRight();
+      }
+    }
   }
 
 }

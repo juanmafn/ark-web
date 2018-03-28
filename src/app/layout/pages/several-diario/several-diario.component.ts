@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SeriesDto } from '../../../model/SeriesDto';
 import { ApiService } from '../../../services/api.service';
+import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 
 @Component({
   selector: 'app-several-diario',
@@ -8,11 +9,13 @@ import { ApiService } from '../../../services/api.service';
 })
 export class SeveralDiarioComponent implements OnInit {
 
-  public value: Date = new Date();
+  @ViewChild('datePicker') datePicker: DatePickerComponent;
 
-  year: number = this.value.getFullYear();
-  month: number = this.value.getMonth() + 1;
-  day: number = this.value.getDate();
+  public value: Date;
+
+  year: number;
+  month: number;
+  day: number;
 
   titleLineChart: string;
   titleColumnChart: string;
@@ -26,7 +29,12 @@ export class SeveralDiarioComponent implements OnInit {
   ];
   categoriaTitle: string = 'Hora';
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {
+    this.value = new Date();
+    this.year = this.value.getFullYear();
+    this.month = this.value.getMonth() + 1;
+    this.day = this.value.getDate();
+  }
 
   ngOnInit() {
     this.getData();
@@ -50,6 +58,27 @@ export class SeveralDiarioComponent implements OnInit {
     this.month = value.getMonth() + 1;
     this.day = value.getDate();
     this.getData();
+  }
+
+  onLeft() {
+    this.value.setDate(this.value.getDate() - 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onRight() {
+    this.value.setDate(this.value.getDate() + 1);
+    this.datePicker.writeValue(this.value);
+    this.onChange(this.value);
+  }
+
+  onKeyDown(event) {
+    if (event.key === 'ArrowLeft') {
+      this.onLeft();
+    }
+    if (event.key === 'ArrowRight') {
+      this.onRight();
+    }
   }
 
 }
