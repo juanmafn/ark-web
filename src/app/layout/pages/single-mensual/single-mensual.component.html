@@ -4,6 +4,12 @@
     [single]="true"
     [type]="'mensual'"
   ></app-breadcrumb>
+  <kendo-combobox
+    #comboBox
+    [data]="players"
+    placeholder="Usuarios" 
+    (valueChange)="valueChange($event)">
+  </kendo-combobox>
   <span class="hand" (click)="onLeft($event)"><i class="fa fa-angle-left"></i></span>
   <kendo-datepicker
       #datePicker

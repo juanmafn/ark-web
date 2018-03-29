@@ -8,6 +8,7 @@ import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { routing } from './app.routing';
 
@@ -56,7 +57,7 @@ import { BreadcrumbComponent } from './sharedComponents/breadcrumb/breadcrumb.co
     AngularFontAwesomeModule,
     routing,
     HttpModule,
-    BrowserAnimationsModule, ChartsModule, DateInputsModule
+    BrowserAnimationsModule, ChartsModule, DateInputsModule, DropDownsModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

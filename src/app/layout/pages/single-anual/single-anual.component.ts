@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api.service';
 import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'app-single-anual',
@@ -10,6 +11,7 @@ import { DatePickerComponent } from '@progress/kendo-angular-dateinputs';
 })
 export class SingleAnualComponent implements OnInit {
 
+  @ViewChild('comboBox') comboBox: ComboBoxComponent;
   @ViewChild('datePicker') datePicker: DatePickerComponent;
 
   public value: Date;
@@ -20,6 +22,7 @@ export class SingleAnualComponent implements OnInit {
   titleGraficaDonut: string;
   dataSource: SeriesDto;
   categoriaTitle: string = 'Mes';
+  players: string[];
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -30,7 +33,12 @@ export class SingleAnualComponent implements OnInit {
       if (this.player == null) {
         this.player = localStorage.getItem('player');
       }
-      this.value = new Date(localStorage.getItem('fecha'));      
+      const fecha = localStorage.getItem('fecha');
+      if (fecha == null) {
+        this.value = new Date();
+      } else {
+        this.value = new Date(fecha);
+      }
       this.year = this.value.getFullYear();
     });
   }
@@ -38,10 +46,26 @@ export class SingleAnualComponent implements OnInit {
   ngOnInit() {
     if (this.player) {
       this.getData();
+    } else {
+      this.getUsuarios();
     }
   }
 
   getData() {
+    this.getUsuarios();
+    this.getSingleAnual();
+  }
+
+  getUsuarios() {
+    this.apiService.getUsuarios().then(res => {
+      this.players = res;
+      if (this.player) {
+        this.comboBox.writeValue(this.player);
+      }
+    });
+  }
+
+  getSingleAnual() {
     this.apiService.getSingleAnual(this.player, this.year)
     .then(res => {
       this.dataSource = res;
@@ -81,4 +105,11 @@ export class SingleAnualComponent implements OnInit {
     }
   }
 
+  public valueChange(player: any): void {
+    if (player) {
+      this.player = player;
+      localStorage.setItem('player', player);
+      this.getSingleAnual();
+    }
+  }
 }
