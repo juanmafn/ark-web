@@ -50,6 +50,7 @@ export class SingleDiarioComponent implements OnInit {
   ngOnInit() {
     if (this.player) {
       this.getData();
+      this.setUpdate();
     } else {
       this.getUsuarios();
     }
@@ -78,6 +79,20 @@ export class SingleDiarioComponent implements OnInit {
         this.titleGraficaDonut = `Proporción de horas totales jugadas por ${this.player} el ${this.dataSource.fecha}`;
       })
       .catch(error => {});  
+  }
+
+  setUpdate() {
+    const date = new Date();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    let xseconds = ((5 - minutes % 5) % 5) * 60000 + (20 - seconds)*1000;
+    if (xseconds < 0) xseconds += 300000;
+    setTimeout(res => this.update(), xseconds);
+  }
+
+  private update() {
+    this.getData();
+    setInterval(res => this.getSingleDiario(), 300000);
   }
 
   public onChange(value: Date): void {

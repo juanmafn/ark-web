@@ -43,12 +43,12 @@ export class SeveralAnualComponent implements OnInit {
   ngOnInit() {
     localStorage.setItem('fecha', this.value.toDateString());
     this.getData();
+    this.setUpdate();
   }
 
   getData() {
     this.apiService.getSeveralAnual(this.year)
       .then(res => {
-        console.log(res);
         this.dataSource = res;
 
         this.titleLineChart = `Horas jugadas por cada jugador en ${this.dataSource.fecha}`;
@@ -56,6 +56,20 @@ export class SeveralAnualComponent implements OnInit {
         this.titleDonutChart = `Proporción de horas totales jugadas por los jugadores en ${this.dataSource.fecha}`;
       })
       .catch(error => {});
+  }
+
+  setUpdate() {
+    const date = new Date();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    let xseconds = ((5 - minutes % 5) % 5) * 60000 + (20 - seconds)*1000;
+    if (xseconds < 0) xseconds += 300000;
+    setTimeout(res => this.update(), xseconds);
+  }
+
+  private update() {
+    this.getData();
+    setInterval(res => this.getData(), 300000);
   }
 
   public onChange(value: Date): void {
