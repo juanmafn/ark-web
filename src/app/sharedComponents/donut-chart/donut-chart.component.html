@@ -1,4 +1,5 @@
-<kendo-chart>
+<kendo-chart
+  (render)="onRender($event)">
   <kendo-chart-title text="{{ title }}"></kendo-chart-title>
   <kendo-chart-legend [visible]="false"></kendo-chart-legend>
   <kendo-chart-area [height]="height">

@@ -14,11 +14,19 @@ export class DonutChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.calcularHorasTotales();
+  }
+
+  calcularHorasTotales() {
     let total = 0;
     this.series.forEach(element => {
       total += element.total
     });
     this.nTotal = total.toFixed(2);
+  }
+
+  public onRender(): void {
+    this.calcularHorasTotales();
   }
 
   public labelContent(e: any): string {

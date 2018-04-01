@@ -20,16 +20,30 @@ export class SeveralMensualComponent implements OnInit {
   titleColumnChart: string;
   titleDonutChart: string;
   dataSource: SeriesDto;
-  categories: string[] = [
-    '01/11', '02/11', '03/11', '04/11', '05/11', '06/11', '07/11', '08/11', '09/11', '10/11',
-    '11/11', '12/11', '13/11', '14/11', '15/11', '16/11', '17/11', '18/11', '19/11', '20/11',
-    '21/11', '22/11', '23/11', '24/11', '25/11', '26/11', '27/11', '28/11', '29/11', '30/11'];
+  categories: string[];
   categoriaTitle: string = 'Día';
 
   constructor(private apiService: ApiService) {
     this.value = new Date();
     this.year = this.value.getFullYear();
     this.month = this.value.getMonth() + 1;
+    console.log(this.month);
+    if (this.month == 2) {
+      this.categories = [
+        '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+        '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+        '21', '22', '23', '24', '25', '26', '27', '28'];
+    } else if (this.month == 1 || this.month == 3 || this.month == 5 || this.month == 7 || this.month == 8 || this.month == 10 || this.month == 12) {
+      this.categories = [
+        '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+        '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+        '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+    } else {
+      this.categories = [
+        '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+        '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+        '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+    }
   }
 
   ngOnInit() {
