@@ -31,7 +31,7 @@ export class DonutChartComponent implements OnInit {
 
   public labelContent(e: any): string {
     let horas = e.value;
-    let valor = (e.value < 1) ? `${e.value*60} minutos` : `${e.value} horas`;
+    let valor = (e.value < 1) ? `${Math.round(e.value * 60 * 100) / 100} minutos` : `${Math.round(e.value * 100) / 100} horas`;
     if (horas < 1) horas *= 60;
     return `${e.category}: ${valor}\n${(e.percentage*100).toFixed(2)}%`;
   }

@@ -4,7 +4,7 @@
   <kendo-chart-tooltip>
     <ng-template kendoChartSeriesTooltipTemplate
                   let-value="value" let-series="series">
-        {{ series.name }}: {{ value }} horas
+        {{ series.name }}: {{ value | number:'1.0-2' }} horas
     </ng-template>
   </kendo-chart-tooltip>
   <kendo-chart-category-axis>
