@@ -9,13 +9,13 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6">
+  <div [class]="colClass">
     <app-column-chart
       [title]="titleColumnChart"
       [series]="series"
     ></app-column-chart>
   </div>
-  <div class="col-md-6">
+  <div [class]="colClass">
     <app-donut-chart
       [title]="titleDonutChart"
       [series]="series"

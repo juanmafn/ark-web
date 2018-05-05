@@ -14,9 +14,16 @@ export class ComboSeveralChartComponent implements OnInit {
   @Input() categories: string[];
   @Input() categoryTitle: string;
 
+  colClass: string;
+
   constructor() { }
 
   ngOnInit() {
+    if (this.categoryTitle === 'Mes') {
+      this.colClass = 'col-md-12';
+    } else {
+      this.colClass = 'col-md-6';
+    }
   }
 
 }
